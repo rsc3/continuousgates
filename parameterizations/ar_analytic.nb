@@ -1,0 +1,312 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.2'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      9566,        232]*)
+(*NotebookOutlinePosition[     10291,        257]*)
+(*  CellTagsIndexPosition[     10247,        253]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell["\<\
+We start with a simple model of activation/repression.  The basal \
+unregulated expression level is S.  Furthermore, we assume that the induction \
+is perfect, so the effect of a repressor can be removed completely. This \
+function has two variables which range from  0 (full induced) to 1 (fully \
+repressed) for each repressor.  The three parameters account for the strength \
+of repression (c3), and two activation parameters c1 and c2, where the \
+activation is productive when c1 > c2.\
+\>", "Text",
+  FontSize->18],
+
+Cell[BoxData[{
+    \(P[A_, R_, c1_, c2_, 
+        c3_] := \(S \((1 + c1*A)\)\)\/\(1 + c2*A + c3*R\)\), "\n", 
+    \(r[c1_, c2_, c3_] := 
+      Log[10, P[1, 0, c1, c2, c3]/P[0, 1, c1, c2, c3]]\), "\n", 
+    \(\[Alpha][c1_, c2_, c3_] := 
+      Log[10, P[1, 0, c1, c2, c3]/P[1, 1, c1, c2, c3]]/
+        r[c1, c2, c3]\), "\n", 
+    \(\[Beta][c1_, c2_, c3_] := 
+      Log[10, P[1, 0, c1, c2, c3]/P[0, 0, c1, c2, c3]]/
+        r[c1, c2, c3]\), "\[IndentingNewLine]", 
+    \(l[c1_, c2_, 
+        c3_] := \(\[Alpha][c1, c2, c3] + \[Beta][c1, c2, c3]\)\/2\), "\
+\[IndentingNewLine]", 
+    \(a[c1_, 
+        c2_, \[Omega]_] := \[Alpha][c1, c2, \[Omega]] - \[Beta][c1, 
+          c2, \[Omega]]\)}], "Input",
+  CellFrame->{{0, 0}, {3, 0}},
+  FontSize->18],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(r[c1, c2, c3]\)], "Input"],
+
+Cell[BoxData[
+    \(Log[\(\((1 + c1)\)\ \((1 + c3)\)\)\/\(1 + c2\)]\/Log[10]\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[a[c1, c2, c3], c2 > 0]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(-Log[1 + c1]\) + Log[1 + c2 + c3]\)\/Log[\(\((1 + c1)\)\ \((1 + c3)\
+\)\)\/\(1 + c2\)]\)], "Output"]
+}, Open  ]],
+
+Cell[BoxData[""], "Input"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Simplify[l[c1, c2, c3], c2 > 0]\)], "Input"],
+
+Cell[BoxData[
+    \(\(Log[1 + c1] - 2\ Log[1 + c2] + Log[1 + c2 + c3]\)\/\(2\ Log[\(\((1 + \
+c1)\)\ \((1 + c3)\)\)\/\(1 + c2\)]\)\)], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Since there are three microscopic (c1, c2, c3) and three logical \
+(r,a,l) parameters, we can  solve for the microscopic parameters in terms of \
+the logic parameters explicitly. \
+\>", "Text",
+  FontSize->18],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Solve[r[c1, c2, c3] \[Equal] r, c2]\)], "Input"],
+
+Cell[BoxData[
+    \({{c2 \[Rule] \(-10\^\(-r\)\)\ \((\(-1\) + 10\^r - c1 - c3 - 
+                c1\ c3)\)}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(solnc3 = 
+      Solve[a[c1, \(-10\^\(-r\)\)\ \((\(-1\) + 10\^r - c1 - c3 - c1\ c3)\), 
+            c3] \[Equal] a, c3]\)], "Input"],
+
+Cell[BoxData[
+    \({{c3 \[Rule] \(\((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + \
+c1)\)\)\/\(1 + 10\^r + c1\)}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(solnc1 = 
+      Solve[l[c1, \(-10\^\(-r\)\)\ \((\(-1\) + 10\^r - c1 - c3 - c1\ c3)\), 
+              c3] \[Equal] l, c1] /. solnc3\)], "Input"],
+
+Cell[BoxData[
+    \({{{c1 \[Rule] \((10\^r - \((10\^r)\)\^\(2\ l\) - \(\((10\^r)\)\^\(2\ \
+l\)\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\^2\ \((1 + c1)\)\^2\)\/\((1 + \
+10\^r + c1)\)\^2 + \(10\^r\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\
+\)\)\/\(1 + 10\^r + c1\) + \(10\^\(2\ r\)\ \((\(-1\) + \((10\^r)\)\^\(1 + \
+a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\) - \(2\ \((10\^r)\)\^\(2\ l\)\ \
+\((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\)/\
+\((\((1 + \(\((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + \
+10\^r + c1\))\)\ \((\(-10\^r\) + \((10\^r)\)\^\(2\ l\) + \(\((10\^r)\)\^\(2\ \
+l\)\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + \
+c1\))\))\)}}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(solnc3 = 
+      Solve[a[c1, \(-10\^\(-r\)\)\ \((\(-1\) + 10\^r - c1 - c3 - c1\ c3)\), 
+              c3] \[Equal] a, c3] /. solnc1\)], "Input"],
+
+Cell[BoxData[
+    \({{{{c3 \[Rule] \((\((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + \
+\((10\^r - \((10\^r)\)\^\(2\ l\) - \(\((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \((10\
+\^r)\)\^\(1 + a\))\)\^2\ \((1 + c1)\)\^2\)\/\((1 + 10\^r + c1)\)\^2 + \(10\^r\
+\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\) + \
+\(10\^\(2\ r\)\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + \
+10\^r + c1\) - \(2\ \((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \((10\^r)\)\^\(1 + \
+a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\)/\((\((1 + \(\((\(-1\) + \
+\((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\)\ \((\(-10\^r\
+\) + \((10\^r)\)\^\(2\ l\) + \(\((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \((10\^r)\)\
+\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\))\))\))\)/\((1 + 
+                    10\^r + \((10\^r - \((10\^r)\)\^\(2\ l\) - \
+\(\((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\^2\ \((1 + c1)\
+\)\^2\)\/\((1 + 10\^r + c1)\)\^2 + \(10\^r\ \((\(-1\) + \((10\^r)\)\^\(1 + \
+a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\) + \(10\^\(2\ r\)\ \((\(-1\) + \
+\((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\) - \(2\ \
+\((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + \
+c1)\)\)\/\(1 + 10\^r + c1\))\)/\((\((1 + \(\((\(-1\) + \((10\^r)\)\^\(1 + \
+a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\)\ \((\(-10\^r\) + \
+\((10\^r)\)\^\(2\ l\) + \(\((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \((10\^r)\)\^\(1 \
++ a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\))\))\)}}}}\)], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+    \(Solve[
+        r[c1, c2, \(\((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + \
+c1)\)\)\/\(1 + 10\^r + c1\)] \[Equal] r, c2] /. solnc1\)], "Input"],
+
+Cell[BoxData[
+    \({{{{c2 \[Rule] \((\(-10\^r\) + \((10\^r)\)\^a + \((\((10\^r)\)\^a\ \
+\((10\^r - \((10\^r)\)\^\(2\ l\) - \(\((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \((10\
+\^r)\)\^\(1 + a\))\)\^2\ \((1 + c1)\)\^2\)\/\((1 + 10\^r + c1)\)\^2 + \(10\^r\
+\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\) + \
+\(10\^\(2\ r\)\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + \
+10\^r + c1\) - \(2\ \((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \((10\^r)\)\^\(1 + \
+a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\)\^2)\)/\((\((1 + \(\((\(-1\) + \
+\((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\)\^2\ \((\(-10\
+\^r\) + \((10\^r)\)\^\(2\ l\) + \(\((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \
+\((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\)\^2)\) + \((2\
+\ \((10\^r)\)\^a\ \((10\^r - \((10\^r)\)\^\(2\ l\) - \(\((10\^r)\)\^\(2\ l\)\ \
+\((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\^2\ \((1 + c1)\)\^2\)\/\((1 + 10\^r + \
+c1)\)\^2 + \(10\^r\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + \
+c1)\)\)\/\(1 + 10\^r + c1\) + \(10\^\(2\ r\)\ \((\(-1\) + \((10\^r)\)\^\(1 + \
+a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\) - \(2\ \((10\^r)\)\^\(2\ l\)\ \
+\((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\))\
+\)/\((\((1 + \(\((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + \
+10\^r + c1\))\)\ \((\(-10\^r\) + \((10\^r)\)\^\(2\ l\) + \(\((10\^r)\)\^\(2\ \
+l\)\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + \
+c1\))\))\))\)/\((1 + 
+                    10\^r + \((10\^r - \((10\^r)\)\^\(2\ l\) - \
+\(\((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\^2\ \((1 + c1)\
+\)\^2\)\/\((1 + 10\^r + c1)\)\^2 + \(10\^r\ \((\(-1\) + \((10\^r)\)\^\(1 + \
+a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\) + \(10\^\(2\ r\)\ \((\(-1\) + \
+\((10\^r)\)\^\(1 + a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\) - \(2\ \
+\((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \((10\^r)\)\^\(1 + a\))\)\ \((1 + \
+c1)\)\)\/\(1 + 10\^r + c1\))\)/\((\((1 + \(\((\(-1\) + \((10\^r)\)\^\(1 + \
+a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\)\ \((\(-10\^r\) + \
+\((10\^r)\)\^\(2\ l\) + \(\((10\^r)\)\^\(2\ l\)\ \((\(-1\) + \((10\^r)\)\^\(1 \
++ a\))\)\ \((1 + c1)\)\)\/\(1 + 10\^r + c1\))\))\))\)}}}}\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.2 for Macintosh",
+ScreenRectangle->{{0, 1440}, {0, 874}},
+WindowSize->{520, 740},
+WindowMargins->{{134, Automatic}, {Automatic, 66}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+StyleDefinitions -> "Report.nb"
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1754, 51, 530, 9, 210, "Text"],
+Cell[2287, 62, 743, 18, 417, "Input"],
+
+Cell[CellGroupData[{
+Cell[3055, 84, 46, 1, 32, "Input"],
+Cell[3104, 87, 90, 1, 73, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[3231, 93, 64, 1, 32, "Input"],
+Cell[3298, 96, 124, 2, 72, "Output"]
+}, Open  ]],
+Cell[3437, 101, 26, 0, 32, "Input"],
+
+Cell[CellGroupData[{
+Cell[3488, 105, 64, 1, 32, "Input"],
+Cell[3555, 108, 143, 2, 72, "Output"]
+}, Open  ]],
+Cell[3713, 113, 219, 5, 78, "Text"],
+
+Cell[CellGroupData[{
+Cell[3957, 122, 68, 1, 32, "Input"],
+Cell[4028, 125, 122, 2, 47, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4187, 132, 151, 3, 64, "Input"],
+Cell[4341, 137, 126, 2, 65, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4504, 144, 163, 3, 64, "Input"],
+Cell[4670, 149, 732, 10, 263, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5439, 164, 163, 3, 64, "Input"],
+Cell[5605, 169, 1510, 20, 590, "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7152, 194, 162, 3, 68, "Input"],
+Cell[7317, 199, 2233, 30, 803, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

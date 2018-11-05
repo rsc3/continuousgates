@@ -1,0 +1,531 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     14419,        521]
+NotebookOptionsPosition[     12772,        461]
+NotebookOutlinePosition[     13164,        478]
+CellTagsIndexPosition[     13121,        475]
+WindowFrame->Normal
+ContainsDynamic->False*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[TextData[{
+ "We start with a model of co-repression taken from Buchler ",
+ StyleBox["et al. ",
+  FontSlant->"Italic"],
+ "In particular, we allow for a degree of repressor interaction captured by \
+\[Omega]. There is no explicit term for leaky expression, since repression \
+was found to completely shut off the strongest promoters.  Furthermore, we \
+assume that the induction is perfect, so the effect of a repressor can be \
+removed completely. This function has two variables which range from  0 (full \
+induced) to 1 (fully repressed) for each repressor.  The three parameters \
+account for the strength of repression by each, along with the interaction \
+term \[Omega], which is 1 when the repressors act independently, less than 1 \
+when they interact competively, 0 when they are completely exclusive, and \
+greater than one when they act competitively."
+}], "Text",
+ FontSize->18],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"P", "[", 
+   RowBox[{"R1_", ",", "R2_", ",", "c1_", ",", "c2_", ",", "\[Omega]_"}], 
+   "]"}], ":=", 
+  FractionBox["A", 
+   RowBox[{"1", "+", 
+    RowBox[{"c1", "*", "R1"}], "+", 
+    RowBox[{"c2", "*", "R2"}], "+", 
+    RowBox[{
+    "\[Omega]", "*", "c1", "*", "c2", "*", "R1", "*", "R2"}]}]]}], "\n", 
+ RowBox[{
+  RowBox[{"r", "[", 
+   RowBox[{"c1_", ",", "c2_", ",", "\[Omega]_"}], "]"}], ":=", 
+  RowBox[{"Log", "[", 
+   RowBox[{"10", ",", 
+    RowBox[{
+     RowBox[{"P", "[", 
+      RowBox[{"0", ",", "0", ",", "c1", ",", "c2", ",", "\[Omega]"}], "]"}], 
+     "/", 
+     RowBox[{"P", "[", 
+      RowBox[{"1", ",", "1", ",", "c1", ",", "c2", ",", "\[Omega]"}], 
+      "]"}]}]}], "]"}]}], "\n", 
+ RowBox[{
+  RowBox[{"\[Alpha]", "[", 
+   RowBox[{"c1_", ",", "c2_", ",", "\[Omega]_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"Log", "[", 
+    RowBox[{"10", ",", 
+     RowBox[{
+      RowBox[{"P", "[", 
+       RowBox[{"0", ",", "0", ",", "c1", ",", "c2", ",", "\[Omega]"}], "]"}], 
+      "/", 
+      RowBox[{"P", "[", 
+       RowBox[{"1", ",", "0", ",", "c1", ",", "c2", ",", "\[Omega]"}], 
+       "]"}]}]}], "]"}], "/", 
+   RowBox[{"r", "[", 
+    RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}]}]}], "\n", 
+ RowBox[{
+  RowBox[{"\[Beta]", "[", 
+   RowBox[{"c1_", ",", "c2_", ",", "\[Omega]_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"Log", "[", 
+    RowBox[{"10", ",", 
+     RowBox[{
+      RowBox[{"P", "[", 
+       RowBox[{"0", ",", "0", ",", "c1", ",", "c2", ",", "\[Omega]"}], "]"}], 
+      "/", 
+      RowBox[{"P", "[", 
+       RowBox[{"0", ",", "1", ",", "c1", ",", "c2", ",", "\[Omega]"}], 
+       "]"}]}]}], "]"}], "/", 
+   RowBox[{"r", "[", 
+    RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], 
+    "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"l", "[", 
+   RowBox[{"c1_", ",", "c2_", ",", "\[Omega]_"}], "]"}], ":=", 
+  FractionBox[
+   RowBox[{
+    RowBox[{"\[Alpha]", "[", 
+     RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}], "+", 
+    RowBox[{"\[Beta]", "[", 
+     RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}]}], 
+   "2"]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"a", "[", 
+   RowBox[{"c1_", ",", "c2_", ",", "\[Omega]_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"\[Alpha]", "[", 
+    RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}], "-", 
+   RowBox[{"\[Beta]", "[", 
+    RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}]}]}]}], "Input",
+ CellFrame->{{0, 0}, {3, 0}},
+ FontSize->18],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"r", "[", 
+  RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{"Log", "[", 
+   RowBox[{"1", "+", "c1", "+", "c2", "+", 
+    RowBox[{"c1", " ", "c2", " ", "\[Omega]"}]}], "]"}], 
+  RowBox[{"Log", "[", "10", "]"}]]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"a", "[", 
+  RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox[
+   RowBox[{"Log", "[", 
+    RowBox[{"1", "+", "c1"}], "]"}], 
+   RowBox[{"Log", "[", 
+    RowBox[{"1", "+", "c1", "+", "c2", "+", 
+     RowBox[{"c1", " ", "c2", " ", "\[Omega]"}]}], "]"}]], "-", 
+  FractionBox[
+   RowBox[{"Log", "[", 
+    RowBox[{"1", "+", "c2"}], "]"}], 
+   RowBox[{"Log", "[", 
+    RowBox[{"1", "+", "c1", "+", "c2", "+", 
+     RowBox[{"c1", " ", "c2", " ", "\[Omega]"}]}], "]"}]]}]], "Output"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"l", "[", 
+  RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox["1", "2"], " ", 
+  RowBox[{"(", 
+   RowBox[{
+    FractionBox[
+     RowBox[{"Log", "[", 
+      RowBox[{"1", "+", "c1"}], "]"}], 
+     RowBox[{"Log", "[", 
+      RowBox[{"1", "+", "c1", "+", "c2", "+", 
+       RowBox[{"c1", " ", "c2", " ", "\[Omega]"}]}], "]"}]], "+", 
+    FractionBox[
+     RowBox[{"Log", "[", 
+      RowBox[{"1", "+", "c2"}], "]"}], 
+     RowBox[{"Log", "[", 
+      RowBox[{"1", "+", "c1", "+", "c2", "+", 
+       RowBox[{"c1", " ", "c2", " ", "\[Omega]"}]}], "]"}]]}], 
+   ")"}]}]], "Output"]
+}, Open  ]],
+
+Cell["\<\
+Since there are three microscopic (c1, c2, \[Omega]) and three logical \
+(r,a,l) parameters, we can  solve for the microscopic parameters in terms of \
+the logic parameters explicitly. First we solve for the repression \
+coefficients c1 and c2. Note:\
+\>", "Text",
+ FontSize->18],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Simplify", "[", 
+  RowBox[{
+   RowBox[{"a", "[", 
+    RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}], "+", 
+   RowBox[{"2", "*", 
+    RowBox[{"l", "[", 
+     RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}]}]}], "]"}]], "Input",
+ FontSize->18],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{"2", " ", 
+   RowBox[{"Log", "[", 
+    RowBox[{"1", "+", "c1"}], "]"}]}], 
+  RowBox[{"Log", "[", 
+   RowBox[{"1", "+", "c1", "+", "c2", "+", 
+    RowBox[{"c1", " ", "c2", " ", "\[Omega]"}]}], "]"}]]], "Output",
+ FontSize->18]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox[
+   RowBox[{"2", " ", 
+    RowBox[{"Log", "[", 
+     RowBox[{"1", "+", "c1"}], "]"}]}], 
+   RowBox[{"Log", "[", 
+    RowBox[{"1", "+", "c1", "+", "c2", "+", 
+     RowBox[{"c1", " ", "c2", " ", "\[Omega]"}]}], "]"}]], ";"}]], "Input",
+ FontSize->18],
+
+Cell["\<\
+Where the denominator is just the regulatory range r. Therefore,\
+\>", "Text",
+ FontSize->18],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Solve", "[", 
+  RowBox[{
+   RowBox[{
+    FractionBox[
+     RowBox[{"2", " ", 
+      RowBox[{"Log", "[", 
+       RowBox[{"10", ",", 
+        RowBox[{"1", "+", "c1"}]}], "]"}]}], "r"], "\[Equal]", 
+    RowBox[{"a", "+", 
+     RowBox[{"2", "*", "l"}]}]}], ",", "c1"}], "]"}]], "Input",
+ FontSize->18],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"c1", "\[Rule]", 
+    RowBox[{
+     RowBox[{"-", "1"}], "+", 
+     SuperscriptBox["10", 
+      RowBox[{
+       FractionBox[
+        RowBox[{"a", " ", "r"}], "2"], "+", 
+       RowBox[{"l", " ", "r"}]}]]}]}], "}"}], "}"}]], "Output",
+ FontSize->18]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"c1", "[", 
+   RowBox[{"r_", ",", "a_", ",", "l_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"-", "1"}], "+", 
+   SuperscriptBox["10", 
+    RowBox[{
+     FractionBox[
+      RowBox[{"a", " ", "r"}], "2"], "+", 
+     RowBox[{"l", " ", "r"}]}]]}]}]], "Input",
+ FontSize->18],
+
+Cell["Similarly for c2:", "Text",
+ FontSize->18],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Simplify", "[", 
+  RowBox[{
+   RowBox[{"-", 
+    RowBox[{"a", "[", 
+     RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}]}], "+", 
+   RowBox[{"2", "*", 
+    RowBox[{"l", "[", 
+     RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}]}]}], "]"}]], "Input",
+ FontSize->18],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{"2", " ", 
+   RowBox[{"Log", "[", 
+    RowBox[{"1", "+", "c2"}], "]"}]}], 
+  RowBox[{"Log", "[", 
+   RowBox[{"1", "+", "c1", "+", "c2", "+", 
+    RowBox[{"c1", " ", "c2", " ", "\[Omega]"}]}], "]"}]]], "Output",
+ FontSize->18]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Simplify", "[", 
+  RowBox[{"Solve", "[", 
+   RowBox[{
+    RowBox[{
+     FractionBox[
+      RowBox[{"2", " ", 
+       RowBox[{"Log", "[", 
+        RowBox[{"10", ",", 
+         RowBox[{"1", "+", "c2"}]}], "]"}]}], "r"], "\[Equal]", 
+     RowBox[{
+      RowBox[{"-", "a"}], "+", 
+      RowBox[{"2", "*", "l"}]}]}], ",", "c2"}], "]"}], "]"}]], "Input",
+ FontSize->18],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"c2", "\[Rule]", 
+    RowBox[{
+     RowBox[{"-", "1"}], "+", 
+     SuperscriptBox["10", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox[
+         RowBox[{"a", " ", "r"}], "2"]}], "+", 
+       RowBox[{"l", " ", "r"}]}]]}]}], "}"}], "}"}]], "Output",
+ FontSize->18]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"c2", "[", 
+   RowBox[{"r_", ",", "a_", ",", "l_"}], "]"}], ":=", 
+  RowBox[{
+   RowBox[{"-", "1"}], "+", 
+   SuperscriptBox["10", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"a", " ", "r"}], "2"]}], "+", 
+     RowBox[{"l", " ", "r"}]}]]}]}]], "Input",
+ FontSize->18],
+
+Cell["\<\
+To compute \[Omega] in terms of (r, a, l) we use the expression for r in \
+terms of the microscopic parameters and the solution for the repression \
+constants.\
+\>", "Text",
+ FontSize->18],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Solve", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"r", "[", 
+     RowBox[{"c1", ",", "c2", ",", "\[Omega]"}], "]"}], "\[Equal]", "r"}], 
+   ",", "\[Omega]"}], "]"}]], "Input",
+ FontSize->18],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"\[Omega]", "\[Rule]", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"-", "1"}], "+", 
+      SuperscriptBox["10", "r"], "-", "c1", "-", "c2"}], 
+     RowBox[{"c1", " ", "c2"}]]}], "}"}], "}"}]], "Output",
+ FontSize->18]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Solve", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"r", "[", 
+     RowBox[{
+      RowBox[{"c1", "[", 
+       RowBox[{"r", ",", "a", ",", "l"}], "]"}], ",", 
+      RowBox[{"c2", "[", 
+       RowBox[{"r", ",", "a", ",", "l"}], "]"}], ",", "\[Omega]"}], "]"}], 
+    "\[Equal]", "r"}], ",", "\[Omega]"}], "]"}]], "Input",
+ FontSize->18],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"\[Omega]", "\[Rule]", 
+    FractionBox[
+     RowBox[{
+      RowBox[{"-", 
+       SuperscriptBox["10", 
+        FractionBox[
+         RowBox[{"a", " ", "r"}], "2"]]}], "+", 
+      SuperscriptBox["10", 
+       RowBox[{"l", " ", "r"}]], "-", 
+      SuperscriptBox["10", 
+       RowBox[{"r", "+", 
+        FractionBox[
+         RowBox[{"a", " ", "r"}], "2"]}]], "+", 
+      SuperscriptBox["10", 
+       RowBox[{
+        RowBox[{"a", " ", "r"}], "+", 
+        RowBox[{"l", " ", "r"}]}]]}], 
+     RowBox[{
+      RowBox[{"-", 
+       SuperscriptBox["10", 
+        FractionBox[
+         RowBox[{"a", " ", "r"}], "2"]]}], "+", 
+      SuperscriptBox["10", 
+       RowBox[{"l", " ", "r"}]], "+", 
+      SuperscriptBox["10", 
+       RowBox[{
+        RowBox[{"a", " ", "r"}], "+", 
+        RowBox[{"l", " ", "r"}]}]], "-", 
+      SuperscriptBox["10", 
+       RowBox[{
+        FractionBox[
+         RowBox[{"a", " ", "r"}], "2"], "+", 
+        RowBox[{"2", " ", "l", " ", "r"}]}]]}]]}], "}"}], "}"}]], "Output",
+ CellFrame->{{0, 0}, {3, 0}},
+ FontSize->18]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[Omega]", "[", 
+   RowBox[{"r_", ",", "a_", ",", "l_"}], "]"}], ":=", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["10", 
+     FractionBox[
+      RowBox[{"a", " ", "r"}], "2"]], "+", 
+    SuperscriptBox["10", 
+     RowBox[{
+      FractionBox["1", "2"], " ", 
+      RowBox[{"(", 
+       RowBox[{"2", "+", "a"}], ")"}], " ", "r"}]], "-", 
+    SuperscriptBox["10", 
+     RowBox[{"l", " ", "r"}]], "-", 
+    SuperscriptBox["10", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"a", "+", "l"}], ")"}], " ", "r"}]]}], 
+   RowBox[{
+    SuperscriptBox["10", 
+     FractionBox[
+      RowBox[{"a", " ", "r"}], "2"]], "-", 
+    SuperscriptBox["10", 
+     RowBox[{"l", " ", "r"}]], "-", 
+    SuperscriptBox["10", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"a", "+", "l"}], ")"}], " ", "r"}]], "+", 
+    SuperscriptBox["10", 
+     RowBox[{
+      FractionBox["1", "2"], " ", 
+      RowBox[{"(", 
+       RowBox[{"a", "+", 
+        RowBox[{"4", " ", "l"}]}], ")"}], " ", "r"}]]}]]}]], "Input",
+ CellFrame->{{0, 0}, {3, 0}},
+ FontSize->18]
+},
+WindowSize->{520, 740},
+WindowMargins->{{181, Automatic}, {Automatic, 144}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+FrontEndVersion->"6.0 for Mac OS X x86 (32-bit) (April 20, 2007)",
+StyleDefinitions->"Report.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[568, 21, 893, 15, 290, "Text"],
+Cell[1464, 38, 2446, 73, 420, "Input"],
+Cell[CellGroupData[{
+Cell[3935, 115, 96, 2, 29, "Input"],
+Cell[4034, 119, 199, 5, 65, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4270, 129, 96, 2, 29, "Input"],
+Cell[4369, 133, 452, 13, 65, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4858, 151, 96, 2, 29, "Input"],
+Cell[4957, 155, 548, 17, 65, "Output"]
+}, Open  ]],
+Cell[5520, 175, 289, 6, 110, "Text"],
+Cell[CellGroupData[{
+Cell[5834, 185, 271, 8, 35, "Input"],
+Cell[6108, 195, 263, 8, 75, "Output"]
+}, Open  ]],
+Cell[6386, 206, 286, 9, 64, "Input"],
+Cell[6675, 217, 103, 3, 50, "Text"],
+Cell[CellGroupData[{
+Cell[6803, 224, 321, 11, 100, "Input"],
+Cell[7127, 237, 303, 11, 60, "Output"]
+}, Open  ]],
+Cell[7445, 251, 301, 11, 42, "Input"],
+Cell[7749, 264, 48, 1, 30, "Text"],
+Cell[CellGroupData[{
+Cell[7822, 269, 292, 9, 59, "Input"],
+Cell[8117, 280, 263, 8, 75, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8417, 293, 387, 13, 140, "Input"],
+Cell[8807, 308, 328, 12, 60, "Output"]
+}, Open  ]],
+Cell[9150, 323, 324, 12, 42, "Input"],
+Cell[9477, 337, 198, 5, 70, "Text"],
+Cell[CellGroupData[{
+Cell[9700, 346, 213, 7, 35, "Input"],
+Cell[9916, 355, 275, 9, 73, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10228, 369, 354, 11, 59, "Input"],
+Cell[10585, 382, 1099, 37, 84, "Output"]
+}, Open  ]],
+Cell[11699, 422, 1069, 37, 102, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
